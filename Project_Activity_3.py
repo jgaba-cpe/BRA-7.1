@@ -6,7 +6,7 @@ from termcolor import colored
 
 
 main_api = "https://www.mapquestapi.com/directions/v2/route?"
-key = "wU6GmujkIUcBEXlWP6KpF64chWWxSxjc"
+key = "6iBdOpMDm2tDtSTs870ih0qBZ5MMK9cd"
 
 while True:
      print(colored("MAPQUEST API", 'cyan'))
@@ -33,6 +33,8 @@ while True:
      kilometers = str("{:.2f}".format((json_data["route"]["distance"])*1.61))
      miles = str("{:.2f}".format((json_data["route"]["distance"])))
      
+     kmval = float(kilometers)
+     milesval = float(kilometers)
      rountrip_km = float(kilometers)*2
      rountrip_miles = float(miles)*2
      
@@ -41,9 +43,15 @@ while True:
      elif roundtrip == "yes" and measurement == "miles":
           table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Roundtrip Distance'], [orig, dest, trip, miles + " miles", str(rountrip_miles) + " miles"]]
      elif roundtrip == "no" and measurement == "km":
-          table = [['Origin', 'Destination', 'Trip Duration', 'Distance',], [orig, dest, trip, kilometers + " km"]]
+          if kmval <= 0.201168:
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, kilometers + " km"]]
+          else:
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, kilometers + " km"]] 
      else:
-          table = [['Origin', 'Destination', 'Trip Duration', 'Distance',], [orig, dest, trip, miles + " miles"]]
+          if milesval <= 0.125:
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, miles + " miles"]]
+          else:
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, miles + " miles"]]
      
      if json_status == 0:
           print(colored("API Status: " + str(json_status) + " = A successful route call.\n", 'green'))
