@@ -60,7 +60,7 @@ while True:
           print(colored("Status Code: " + str(json_status) + "; Missing an entry for one or both locations.", 'on_red'))
           print("**********************************************\n")
      else:
-          print("********************************************************************")
+          print("************************************************************************")
           print("For Staus Code: " + str(json_status) + "; Refer to:")
           print(colored("https://developer.mapquest.com/documentation/directions-api/status-codes", 'on_red'))
-          print("********************************************************************\n")
+          print("************************************************************************\n")
