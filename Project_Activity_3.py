@@ -32,30 +32,43 @@ while True:
      
      kilometers = str("{:.2f}".format((json_data["route"]["distance"])*1.61))
      miles = str("{:.2f}".format((json_data["route"]["distance"])))
+
+     highway = (json_data["route"]["hasHighway"])
+     tollRoad = (json_data["route"]["hasTollRoad"])
+     bridge = (json_data["route"]["hasBridge"])
+     closure = (json_data["route"]["hasSeasonalClosure"])
+     tunnel = (json_data["route"]["hasTunnel"])
      
      kmval = float(kilometers)
-     milesval = float(kilometers)
+     milesval = float(miles)
      rountrip_km = float(kilometers)*2
      rountrip_miles = float(miles)*2
-     
+
      if roundtrip == "yes" and measurement == "km":
           table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Roundtrip Distance'], [orig, dest, trip, kilometers + " km", str(rountrip_km) + " km"]]
+          table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]]
      elif roundtrip == "yes" and measurement == "miles":
           table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Roundtrip Distance'], [orig, dest, trip, miles + " miles", str(rountrip_miles) + " miles"]]
+          table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]]
      elif roundtrip == "no" and measurement == "km":
           if kmval <= 0.201168:
-               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, kilometers + " km"]]
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, kilometers + " km", ""]]
+               table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]]
           else:
-               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, kilometers + " km"]] 
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, kilometers + " km", ""]]
+               table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]] 
      else:
           if milesval <= 0.125:
-               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, miles + " miles"]]
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Walkable'], [orig, dest, trip, miles + " miles", ""]]
+               table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]]
           else:
-               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, miles + " miles"]]
+               table = [['Origin', 'Destination', 'Trip Duration', 'Distance', 'Needs a ride'], [orig, dest, trip, miles + " miles", ""]]
+               table2 = [['Has Highway', 'Has Toll Road', 'Has Bridge', 'Has Seasonal Closure', 'Has Tunnel'], [highway, tollRoad, bridge, closure, tunnel]]
      
      if json_status == 0:
           print(colored("API Status: " + str(json_status) + " = A successful route call.\n", 'green'))
           print(colored(tabulate(table) + "\n", 'red', 'on_cyan'))
+          print(colored(tabulate(table2) + "\n", 'red', 'on_magenta'))
           for each in json_data["route"]["legs"][0]["maneuvers"]:
                print(colored((each["narrative"]) + " (" + str("{:.2f}".format((each["distance"])*1.61) + " km)"), 'yellow'))
                print("=============================================")
