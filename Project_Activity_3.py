@@ -50,7 +50,7 @@ while True:
           print(colored(tabulate(table) + "\n", 'red', 'on_cyan'))
           for each in json_data["route"]["legs"][0]["maneuvers"]:
                print(colored((each["narrative"]) + " (" + str("{:.2f}".format((each["distance"])*1.61) + " km)"), 'yellow'))
-               print("**************************************")
+               print("====================")
      elif json_status == 402:
           print("**********************************************")
           print(colored("Status Code: " + str(json_status) + "; Invalid user inputs for one or both locations.", 'on_red'))
